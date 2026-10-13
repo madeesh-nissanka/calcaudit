@@ -1,0 +1,17 @@
+{
+ "id": "time_factor",
+ "name": "Time factor for one-dimensional consolidation",
+ "equation": "T_v = c_v t / H_dr^2",
+ "variables": {
+  "T_v": "1",
+  "c_v": "m^2/s",
+  "t": "s",
+  "H_dr": "m"
+ },
+ "assumptions": [
+  "one-dimensional",
+  "constant c_v"
+ ],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

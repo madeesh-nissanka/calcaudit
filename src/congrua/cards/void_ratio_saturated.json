@@ -1,0 +1,15 @@
+{
+ "id": "void_ratio_saturated",
+ "name": "Void ratio of a saturated soil",
+ "equation": "e = G_s w",
+ "variables": {
+  "e": "1",
+  "G_s": "1",
+  "w": "1"
+ },
+ "assumptions": [
+  "fully saturated"
+ ],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

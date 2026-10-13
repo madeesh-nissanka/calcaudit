@@ -1,0 +1,18 @@
+{
+ "id": "euler_buckling",
+ "name": "Euler critical load for a pinned-pinned column",
+ "equation": "P_cr = pi^2 E I / L^2",
+ "variables": {
+  "P_cr": "kN",
+  "E": "kPa",
+  "I": "m^4",
+  "L": "m"
+ },
+ "assumptions": [
+  "slender column",
+  "pinned ends",
+  "elastic"
+ ],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

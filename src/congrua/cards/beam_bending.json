@@ -1,0 +1,17 @@
+{
+ "id": "beam_bending",
+ "name": "Flexural stress in an elastic beam",
+ "equation": "sigma = M y / I",
+ "variables": {
+  "sigma": "kPa",
+  "M": "kN*m",
+  "y": "m",
+  "I": "m^4"
+ },
+ "assumptions": [
+  "linear elastic",
+  "plane sections remain plane"
+ ],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

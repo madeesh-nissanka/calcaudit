@@ -1,0 +1,17 @@
+{
+ "id": "reynolds_number",
+ "name": "Reynolds number",
+ "equation": "Re = rho v D / mu",
+ "variables": {
+  "Re": "1",
+  "rho": "kg/m^3",
+  "v": "m/s",
+  "D": "m",
+  "mu": "Pa*s"
+ },
+ "assumptions": [
+  "pipe flow with diameter D"
+ ],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

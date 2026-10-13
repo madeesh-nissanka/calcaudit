@@ -1,0 +1,19 @@
+{
+ "id": "cantilever_tip_deflection",
+ "name": "Tip deflection of a cantilever with an end load",
+ "equation": "delta = P L^3 / (3 E I)",
+ "variables": {
+  "delta": "m",
+  "P": "N",
+  "L": "m",
+  "E": "Pa",
+  "I": "m^4"
+ },
+ "assumptions": [
+  "linear elastic",
+  "small deflection",
+  "prismatic"
+ ],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

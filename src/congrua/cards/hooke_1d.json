@@ -1,0 +1,16 @@
+{
+ "id": "hooke_1d",
+ "name": "Uniaxial linear elasticity",
+ "equation": "sigma = E epsilon",
+ "variables": {
+  "sigma": "kPa",
+  "E": "kPa",
+  "epsilon": "1"
+ },
+ "assumptions": [
+  "linear elastic",
+  "small strain"
+ ],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

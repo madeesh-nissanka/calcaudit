@@ -1,0 +1,13 @@
+{
+ "glossary": {"T_v":"1","c_v":"m^2/s","t":"s","H_dr":"m","v":"m/s","k":"m/s","i":"1","sigma_eff":"kPa",
+              "sigma":"kPa","epsilon":"1","u":"kPa","u_0":"kPa","delta":"m","P":"kN","L":"m","E":"kPa","I":"m^4"},
+ "calculations": [
+   {"id":"C1","equation":"eq:darcy","inputs":{"k":"1e-6 m/s","i":"0.5"},"reported":{"v":"1.0e-6 m/s"}},
+   {"id":"C2","equation":"eq:tv","inputs":{"c_v":"1e-7 m^2/s","t":"1e6 s","H_dr":"2 m"},"reported":{"T_v":"0.25"}},
+   {"id":"C3","equation":"eq:tv","inputs":{"c_v":"1e-7 m^2/s","t":"1e6 s","H_dr":"2 m"},"reported":{"T_v":"2.5"}}
+ ],
+ "derivations": [
+   {"id":"D1","steps":["T_v = c_v t / H_dr^2","T_v = t c_v / H_dr^2","T_v = t c_v / (2 H_dr^2)"]}
+ ],
+ "tables": [{"name":"Table 1","columns":["Settlement (mm)","Stress (kPa)","Settlement (kPa)","Time (s)","Permeability (m/s)"]}]
+}

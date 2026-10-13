@@ -1,0 +1,17 @@
+{
+ "id": "consolidation_settlement",
+ "name": "One-dimensional consolidation settlement",
+ "equation": "S = m_v d_sigma H",
+ "variables": {
+  "S": "m",
+  "m_v": "1/kPa",
+  "d_sigma": "kPa",
+  "H": "m"
+ },
+ "assumptions": [
+  "one-dimensional",
+  "constant m_v over the stress increment"
+ ],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

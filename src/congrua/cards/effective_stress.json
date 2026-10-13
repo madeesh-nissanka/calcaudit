@@ -1,0 +1,16 @@
+{
+ "id": "effective_stress",
+ "name": "Effective stress principle",
+ "equation": "sigma_eff = sigma - u",
+ "variables": {
+  "sigma_eff": "kPa",
+  "sigma": "kPa",
+  "u": "kPa"
+ },
+ "assumptions": [
+  "saturated soil",
+  "stresses in the same sign convention"
+ ],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

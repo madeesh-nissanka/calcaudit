@@ -1,0 +1,16 @@
+{
+ "id": "mohr_coulomb",
+ "name": "Mohr-Coulomb shear strength",
+ "equation": "tau = c + sigma_eff tan(phi)",
+ "variables": {
+  "tau": "kPa",
+  "c": "kPa",
+  "sigma_eff": "kPa",
+  "phi": "rad"
+ },
+ "assumptions": [
+  "effective stress analysis"
+ ],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

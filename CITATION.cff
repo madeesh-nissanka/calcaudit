@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using these metadata."
+title: "CONGRUA: consistency checks for engineering documents"
+authors:
+  - family-names: Nissanka
+    given-names: Madeesh P.
+version: 0.1.0
+date-released: 2026-10-13
+license: MIT
+type: software
+abstract: "CONGRUA checks units, equations and derivations in engineering documents and reports verified, violated and not-checkable results with evidence."

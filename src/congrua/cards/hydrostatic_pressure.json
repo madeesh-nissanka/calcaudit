@@ -1,0 +1,16 @@
+{
+ "id": "hydrostatic_pressure",
+ "name": "Hydrostatic pressure",
+ "equation": "p = rho g h",
+ "variables": {
+  "p": "Pa",
+  "rho": "kg/m^3",
+  "g": "m/s^2",
+  "h": "m"
+ },
+ "assumptions": [
+  "incompressible fluid at rest"
+ ],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

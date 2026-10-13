@@ -1,0 +1,15 @@
+{
+ "id": "kinetic_energy",
+ "name": "Kinetic energy",
+ "equation": "E_k = m v^2 / 2",
+ "variables": {
+  "E_k": "J",
+  "m": "kg",
+  "v": "m/s"
+ },
+ "assumptions": [
+  "non-relativistic"
+ ],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}
