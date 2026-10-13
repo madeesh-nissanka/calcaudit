@@ -7,11 +7,11 @@ import zipfile
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from geoaudit import mutate
-from geoaudit.expr import ParseError, dim_eval, equivalent, evaluate, parse_equation, parse_expr
-from geoaudit.ingest import load_document
-from geoaudit.rules import load_cards, run_all
-from geoaudit.units import ONE, UnitError, parse_unit, value_with_unit
+from calcaudit import mutate
+from calcaudit.expr import ParseError, dim_eval, equivalent, evaluate, parse_equation, parse_expr
+from calcaudit.ingest import load_document
+from calcaudit.rules import load_cards, run_all
+from calcaudit.units import ONE, UnitError, parse_unit, value_with_unit
 
 
 class UnitsTest(unittest.TestCase):
@@ -56,7 +56,7 @@ class ExprTest(unittest.TestCase):
             parse_equation("a + b")
 
     def test_dimension_issues(self):
-        from geoaudit.units import PRESSURE
+        from calcaudit.units import PRESSURE
         issues = []
         dim_eval(parse_expr("sigma + epsilon"), {"sigma": PRESSURE, "epsilon": ONE}, issues)
         self.assertEqual(issues[0]["kind"], "sum")
@@ -67,7 +67,7 @@ class RulesTest(unittest.TestCase):
         p = tempfile.mkdtemp()
         f = os.path.join(p, "d.tex")
         open(f, "w").write("\\begin{equation}" + eq + "\\end{equation}")
-        open(os.path.join(p, "d.geoaudit.json"), "w").write(json.dumps({"glossary": gl, **kw}))
+        open(os.path.join(p, "d.calcaudit.json"), "w").write(json.dumps({"glossary": gl, **kw}))
         return load_document(f)
 
     def test_clean_equation_verified(self):

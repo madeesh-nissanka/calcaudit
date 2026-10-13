@@ -1,0 +1,13 @@
+{
+ "id": "thermal_strain",
+ "name": "Free thermal strain",
+ "equation": "epsilon_T = alpha dT",
+ "variables": {
+  "epsilon_T": "1",
+  "alpha": "1/K",
+  "dT": "K"
+ },
+ "assumptions": [],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

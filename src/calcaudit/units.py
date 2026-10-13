@@ -177,3 +177,19 @@ def value_with_unit(text: str) -> tuple[float, Dim, float]:
     v = float(m.group(1))
     d, f = parse_unit(m.group(2) or "1")
     return v * f, d, f
+
+
+def dim_to_unit(d: Dim) -> str:
+    """A unit string with the given dimension (used for symbols inferred from a quantity word)."""
+    for name in ("m", "s", "kg", "N", "kPa", "J", "W", "Hz", "K", "1"):
+        if UNITS[name][0] == d and UNITS[name][1] == 1.0:
+            return name
+    if d.is_dimensionless():
+        return "1"
+    pieces = []
+    for n, e in zip(("kg", "m", "s", "A", "K", "mol", "cd"), d):
+        if e != 0:
+            pieces.append(f"{n}^{e}" if e.denominator == 1 else None)
+    if any(p is None for p in pieces):
+        raise UnitError("fractional dimension has no unit string")
+    return "·".join(pieces)

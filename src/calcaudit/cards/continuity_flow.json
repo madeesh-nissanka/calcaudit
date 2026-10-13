@@ -1,0 +1,13 @@
+{
+ "id": "continuity_flow",
+ "name": "Volumetric flow rate",
+ "equation": "Q = v A",
+ "variables": {
+  "Q": "m^3/s",
+  "v": "m/s",
+  "A": "m^2"
+ },
+ "assumptions": [],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

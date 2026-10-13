@@ -1,0 +1,13 @@
+{
+ "id": "volumetric_strain",
+ "name": "Volumetric strain",
+ "equation": "epsilon_v = delta_V / V",
+ "variables": {
+  "epsilon_v": "1",
+  "delta_V": "m^3",
+  "V": "m^3"
+ },
+ "assumptions": [],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

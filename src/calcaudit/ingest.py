@@ -29,6 +29,11 @@ class Document:
     tables: list[dict] = field(default_factory=list)
     card_map: dict = field(default_factory=dict)        # equation id -> card id
     symbol_map: dict = field(default_factory=dict)      # equation id -> {doc symbol: card symbol}
+    parameters: dict = field(default_factory=dict)      # name -> value text or [value, unit]
+    datasets: list = field(default_factory=list)
+    text: str = ""                                      # running text, used for inference
+    base: str = "."
+    inferred: dict = field(default_factory=dict)        # symbol -> how its unit was inferred
 
 
 # ----------------------------------------------------------------------------- OMML
@@ -116,14 +121,15 @@ def _text_equations(text: str) -> list[Equation]:
 
 def load_document(path: str, spec: str | None = None) -> Document:
     p = Path(path)
-    doc = Document(source=str(p))
+    doc = Document(source=str(p), base=str(p.parent))
     if p.suffix.lower() == ".docx":
         doc.equations = _docx_equations(p)
     elif p.suffix.lower() == ".json":
         spec = spec or str(p)
     else:
-        doc.equations = _text_equations(p.read_text(encoding="utf-8", errors="replace"))
-    sp = Path(spec) if spec else p.with_suffix(".geoaudit.json")
+        doc.text = p.read_text(encoding="utf-8", errors="replace")
+        doc.equations = _text_equations(doc.text)
+    sp = Path(spec) if spec else p.with_suffix(".calcaudit.json")
     if sp.exists():
         d = json.loads(sp.read_text(encoding="utf-8"))
         doc.glossary = d.get("glossary", {})
@@ -132,6 +138,9 @@ def load_document(path: str, spec: str | None = None) -> Document:
         doc.tables = d.get("tables", [])
         doc.card_map = d.get("cards", {})
         doc.symbol_map = d.get("symbol_map", {})
+        doc.parameters = d.get("parameters", {})
+        doc.datasets = d.get("datasets", [])
+        doc.base = str(sp.parent)
         for e in d.get("equations", []):
             doc.equations.append(Equation(e["id"], e["text"], e.get("where", "spec")))
     return doc

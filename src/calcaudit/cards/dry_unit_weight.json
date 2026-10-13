@@ -1,0 +1,14 @@
+{
+ "id": "dry_unit_weight",
+ "name": "Dry unit weight",
+ "equation": "gamma_d = G_s gamma_w / (1 + e)",
+ "variables": {
+  "gamma_d": "kN/m^3",
+  "G_s": "1",
+  "gamma_w": "kN/m^3",
+  "e": "1"
+ },
+ "assumptions": [],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

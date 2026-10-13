@@ -1,0 +1,13 @@
+{
+ "id": "shear_modulus",
+ "name": "Shear modulus of an isotropic elastic solid",
+ "equation": "G = E / (2 (1 + nu))",
+ "variables": {
+  "G": "kPa",
+  "E": "kPa",
+  "nu": "1"
+ },
+ "assumptions": [],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

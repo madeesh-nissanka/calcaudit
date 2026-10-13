@@ -1,4 +1,4 @@
-"""Command line: geoaudit scan | units | cards."""
+"""Command line: calcaudit scan | units | cards."""
 from __future__ import annotations
 
 import argparse
@@ -12,10 +12,10 @@ from .units import UnitError, parse_unit
 
 
 def main(argv=None) -> int:
-    ap = argparse.ArgumentParser(prog="geoaudit", description="Consistency checks for engineering documents.")
+    ap = argparse.ArgumentParser(prog="calcaudit", description="Consistency checks for engineering documents.")
     ap.add_argument("--version", action="version", version=__version__)
     sub = ap.add_subparsers(dest="cmd", required=True)
-    s = sub.add_parser("scan", help="check a document (.tex .md .txt .docx or a .geoaudit.json spec)")
+    s = sub.add_parser("scan", help="check a document (.tex .md .txt .docx or a .calcaudit.json spec)")
     s.add_argument("path")
     s.add_argument("--spec", help="sidecar JSON with glossary, calculations, derivations, tables")
     s.add_argument("--cards", help="extra directory of knowledge cards")

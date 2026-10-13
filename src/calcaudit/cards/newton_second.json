@@ -1,0 +1,13 @@
+{
+ "id": "newton_second",
+ "name": "Newton's second law",
+ "equation": "F = m a",
+ "variables": {
+  "F": "N",
+  "m": "kg",
+  "a": "m/s^2"
+ },
+ "assumptions": [],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

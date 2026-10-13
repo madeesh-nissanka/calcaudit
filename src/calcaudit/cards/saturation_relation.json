@@ -1,0 +1,14 @@
+{
+ "id": "saturation_relation",
+ "name": "Phase relation for soil",
+ "equation": "S_r e = G_s w",
+ "variables": {
+  "S_r": "1",
+  "e": "1",
+  "G_s": "1",
+  "w": "1"
+ },
+ "assumptions": [],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

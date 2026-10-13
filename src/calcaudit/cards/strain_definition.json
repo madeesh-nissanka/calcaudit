@@ -1,0 +1,13 @@
+{
+ "id": "strain_definition",
+ "name": "Engineering strain",
+ "equation": "epsilon = delta_L / L",
+ "variables": {
+  "epsilon": "1",
+  "delta_L": "m",
+  "L": "m"
+ },
+ "assumptions": [],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

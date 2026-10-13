@@ -1,0 +1,13 @@
+{
+ "id": "stress_definition",
+ "name": "Average normal stress",
+ "equation": "sigma = F / A",
+ "variables": {
+  "sigma": "kPa",
+  "F": "kN",
+  "A": "m^2"
+ },
+ "assumptions": [],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

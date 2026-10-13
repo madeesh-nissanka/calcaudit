@@ -39,6 +39,8 @@ def run(cards: dict | None = None) -> list[Result]:
     for cid, c in cards.items():
         eq, units = c["equation"], c["variables"]
         lhs, rhs = [x.strip() for x in eq.split("=", 1)]
+        if lhs not in units:          # composite left side: not used by the single-symbol mutations
+            continue
         clean_viol = _violated(_doc(eq, units), cards)
         out.append(Result("clean", cid, not clean_viol))            # "caught" here means: correctly not flagged
         # (a) unit error: change the unit of one variable that appears on the right side

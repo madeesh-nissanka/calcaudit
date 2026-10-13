@@ -34,7 +34,7 @@ def rule_units(doc: Document, rep: Report) -> None:
         dims = {k: parse_unit(v)[0] for k, v in doc.glossary.items()}
     except UnitError as e:
         rep.add(Finding("U00", Outcome.NOT_CHECKABLE, "glossary", f"glossary unit not readable: {e}",
-                        reproduce="geoaudit units '<unit>'"))
+                        reproduce="calcaudit units '<unit>'"))
         dims = {}
     for eq in doc.equations:
         obj = f"equation {eq.id}"
@@ -62,7 +62,7 @@ def rule_units(doc: Document, rep: Report) -> None:
             bad = True
             rep.add(Finding("U01", Outcome.VIOLATED, obj, "left and right side have different dimensions",
                             Severity.SERIOUS, observed=f"left {dl}, right {dr}", expected="equal dimensions",
-                            evidence=eq.text, reproduce=f"geoaudit scan {doc.source}"))
+                            evidence=eq.text, reproduce=f"calcaudit scan {doc.source}"))
         for i in sums:
             bad = True
             rep.add(Finding("U01", Outcome.VIOLATED, obj, "terms of a sum have different dimensions",
@@ -259,8 +259,57 @@ def rule_derivations(doc: Document, rep: Report) -> None:
                 rep.add(Finding("V01", Outcome.NOT_CHECKABLE, obj, "equivalence test inconclusive", evidence=ev))
 
 
+def _enrich(doc: Document, rep: Report) -> None:
+    """Fill gaps from the running text: symbol units from 'where' clauses, stated calculations, parameter values."""
+    from .prose import assignments, infer_symbols, paragraphs
+    if not doc.text:
+        return
+    inf = infer_symbols(doc.text)
+    added = {k: v for k, v in inf.items() if k not in doc.glossary}
+    for k, (u, how) in added.items():
+        doc.glossary[k] = u
+        doc.inferred[k] = how
+    if added:
+        rep.notes.append(f"{len(added)} symbol unit(s) inferred from the text: " + ", ".join(sorted(added)))
+    eqs = {e.id: e for e in doc.equations if e.text}
+    known_calc = {(c.get("equation"), tuple(sorted(c.get("inputs", {})))) for c in doc.calculations}
+    n_extracted = 0
+    for pi, par in enumerate(paragraphs(doc.text), 1):
+        asg = assignments(par)
+        if len(asg) < 2:
+            continue
+        for eid, eq in eqs.items():
+            try:
+                lhs, rhs = parse_equation(eq.text, _known(doc))
+            except ParseError:
+                continue
+            if lhs[0] != "sym" or lhs[1] not in asg:
+                continue
+            need = symbols(rhs)
+            if need and all(s in asg for s in need):
+                inputs = {s: f"{asg[s][0]} {asg[s][1]}" for s in need}
+                if (eid, tuple(sorted(inputs))) in known_calc:
+                    continue
+                doc.calculations.append({"id": f"text-{pi}", "equation": eid, "inputs": inputs,
+                                         "reported": {lhs[1]: f"{asg[lhs[1]][0]} {asg[lhs[1]][1]}"},
+                                         "tolerance": 0.05, "extracted": True})
+                n_extracted += 1
+    if n_extracted:
+        rep.notes.append(f"{n_extracted} calculation(s) extracted from the text (tolerance 5%).")
+    for par in paragraphs(doc.text):
+        for k, (v, u) in assignments(par).items():
+            doc.parameters.setdefault(k, [v, u if u != "1" else ""])
+
+
 def run_all(doc: Document, cards: dict[str, dict]) -> Report:
+    from pathlib import Path
+    from .packs import series, soil
     rep = Report(source=doc.source, n_equations=len(doc.equations))
+    _enrich(doc, rep)
+    params = {k: (tuple(v) if isinstance(v, list) else (str(v), "")) for k, v in doc.parameters.items()}
+    soil.run(params, rep)
+    for ds in doc.datasets:
+        series.run(ds, Path(doc.base), rep)
     rule_units(doc, rep)
     rule_substitution(doc, rep)
     rule_standard_forms(doc, rep, cards)

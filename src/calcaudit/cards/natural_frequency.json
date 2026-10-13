@@ -1,0 +1,13 @@
+{
+ "id": "natural_frequency",
+ "name": "Natural circular frequency of a single-degree-of-freedom system",
+ "equation": "omega = sqrt(k_s / m)",
+ "variables": {
+  "omega": "rad/s",
+  "k_s": "N/m",
+  "m": "kg"
+ },
+ "assumptions": [],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

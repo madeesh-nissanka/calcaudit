@@ -1,0 +1,12 @@
+{
+ "id": "porosity",
+ "name": "Porosity from void ratio",
+ "equation": "n = e / (1 + e)",
+ "variables": {
+  "n": "1",
+  "e": "1"
+ },
+ "assumptions": [],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

@@ -1,0 +1,16 @@
+{
+ "id": "normally_consolidated_settlement",
+ "name": "Primary consolidation settlement of a normally consolidated layer",
+ "equation": "S = C_c H / (1 + e_0) log(1 + d_sigma / sigma_0)",
+ "variables": {
+  "S": "m",
+  "C_c": "1",
+  "H": "m",
+  "e_0": "1",
+  "d_sigma": "kPa",
+  "sigma_0": "kPa"
+ },
+ "assumptions": [],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

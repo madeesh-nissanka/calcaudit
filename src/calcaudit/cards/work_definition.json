@@ -1,0 +1,13 @@
+{
+ "id": "work_definition",
+ "name": "Mechanical work",
+ "equation": "W = F d",
+ "variables": {
+  "W": "J",
+  "F": "N",
+  "d": "m"
+ },
+ "assumptions": [],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}

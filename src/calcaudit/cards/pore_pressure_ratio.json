@@ -1,0 +1,13 @@
+{
+ "id": "pore_pressure_ratio",
+ "name": "Pore pressure ratio",
+ "equation": "r_u = u / sigma_v",
+ "variables": {
+  "r_u": "1",
+  "u": "kPa",
+  "sigma_v": "kPa"
+ },
+ "assumptions": [],
+ "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
+ "version": 1
+}
