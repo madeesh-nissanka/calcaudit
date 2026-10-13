@@ -14,7 +14,7 @@ def _sorted(rep: Report):
 
 
 def to_markdown(rep: Report) -> str:
-    L = [f"# CONGRUA report", "", f"Source: `{rep.source}`", f"Equations found: {rep.n_equations}", "",
+    L = [f"# GEOAUDIT report", "", f"Source: `{rep.source}`", f"Equations found: {rep.n_equations}", "",
          f"**{rep.coverage_line()}**", "",
          "Findings are indicators for human review, each with its evidence. A verdict from this tool is a "
          "statement about the checked rule only.", ""]
@@ -42,10 +42,10 @@ def to_html(rep: Report) -> str:
             f.outcome.value, html.escape(f.id), html.escape(f.outcome.value), html.escape(f.severity.value),
             html.escape(f.object), html.escape(f.message + (" | " + f.observed + " vs " + f.expected
                                                            if f.observed or f.expected else ""))))
-    return ("<!doctype html><meta charset=utf-8><title>CONGRUA report</title><style>"
+    return ("<!doctype html><meta charset=utf-8><title>GEOAUDIT report</title><style>"
             "body{font:14px Georgia,serif;max-width:1000px;margin:2rem auto}table{border-collapse:collapse;width:100%}"
             "td,th{border:1px solid #bbb;padding:4px 6px;text-align:left}.violated{background:#fde8e8}"
             ".not_checkable{background:#fff6dd}.verified{background:#e9f7ec}</style>"
-            f"<h1>CONGRUA report</h1><p>Source: {html.escape(rep.source)}</p><p><b>{html.escape(rep.coverage_line())}</b></p>"
+            f"<h1>GEOAUDIT report</h1><p>Source: {html.escape(rep.source)}</p><p><b>{html.escape(rep.coverage_line())}</b></p>"
             "<table><tr><th>ID</th><th>Outcome</th><th>Severity</th><th>Object</th><th>Message</th></tr>"
             + "".join(rows) + "</table>")

@@ -1,6 +1,6 @@
-# CONGRUA v0.1.0 - consistency checks for engineering documents
+# GEOAUDIT v0.1.0 - consistency checks for engineering documents
 
-CONGRUA reads the equations in an engineering document (LaTeX, Markdown, plain text or Word with native equations),
+GEOAUDIT reads the equations in an engineering document (LaTeX, Markdown, plain text or Word with native equations),
 checks them against the units you declare and against a library of standard relations, re-computes stated
 calculations, and verifies each step of a written derivation. It reports every check as one of three outcomes:
 
@@ -31,13 +31,13 @@ Standard library only; Python 3.10 or newer.
 
 ```bash
 pip install .
-congrua scan examples/consolidation_note.tex          # Markdown report to the terminal
-congrua scan paper.docx --spec glossary.json --format html --out report.html
-congrua units "kN/m^2"                                # dimension and SI factor
-congrua cards                                         # built-in knowledge cards
+geoaudit scan examples/consolidation_note.tex          # Markdown report to the terminal
+geoaudit scan paper.docx --spec glossary.json --format html --out report.html
+geoaudit units "kN/m^2"                                # dimension and SI factor
+geoaudit cards                                         # built-in knowledge cards
 ```
 
-A sidecar file `<document>.congrua.json` (or `--spec`) supplies the glossary of symbol units, the calculations to
+A sidecar file `<document>.geoaudit.json` (or `--spec`) supplies the glossary of symbol units, the calculations to
 re-compute, derivations and table headers. See `examples/`. Extracting calculations from prose is not part of v0.1.
 
 ## Knowledge cards
@@ -59,7 +59,7 @@ a publication.
 
 ```bash
 python -m unittest discover -s tests
-python -c "import sys; sys.path.insert(0,'src'); from congrua import mutate; print(mutate.summary(mutate.run()))"
+python -c "import sys; sys.path.insert(0,'src'); from geoaudit import mutate; print(mutate.summary(mutate.run()))"
 ```
 
 MIT licence. Author: Madeesh P. Nissanka.

@@ -123,7 +123,7 @@ def load_document(path: str, spec: str | None = None) -> Document:
         spec = spec or str(p)
     else:
         doc.equations = _text_equations(p.read_text(encoding="utf-8", errors="replace"))
-    sp = Path(spec) if spec else p.with_suffix(".congrua.json")
+    sp = Path(spec) if spec else p.with_suffix(".geoaudit.json")
     if sp.exists():
         d = json.loads(sp.read_text(encoding="utf-8"))
         doc.glossary = d.get("glossary", {})

@@ -34,7 +34,7 @@ def rule_units(doc: Document, rep: Report) -> None:
         dims = {k: parse_unit(v)[0] for k, v in doc.glossary.items()}
     except UnitError as e:
         rep.add(Finding("U00", Outcome.NOT_CHECKABLE, "glossary", f"glossary unit not readable: {e}",
-                        reproduce="congrua units '<unit>'"))
+                        reproduce="geoaudit units '<unit>'"))
         dims = {}
     for eq in doc.equations:
         obj = f"equation {eq.id}"
@@ -62,7 +62,7 @@ def rule_units(doc: Document, rep: Report) -> None:
             bad = True
             rep.add(Finding("U01", Outcome.VIOLATED, obj, "left and right side have different dimensions",
                             Severity.SERIOUS, observed=f"left {dl}, right {dr}", expected="equal dimensions",
-                            evidence=eq.text, reproduce=f"congrua scan {doc.source}"))
+                            evidence=eq.text, reproduce=f"geoaudit scan {doc.source}"))
         for i in sums:
             bad = True
             rep.add(Finding("U01", Outcome.VIOLATED, obj, "terms of a sum have different dimensions",

@@ -3,7 +3,7 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "congrua"
+name = "geoaudit"
 version = "0.1.0"
 description = "Consistency checks for engineering documents: units, equations and derivations."
 readme = "README.md"
@@ -13,10 +13,10 @@ authors = [{name = "Madeesh P. Nissanka"}]
 dependencies = []
 
 [project.scripts]
-congrua = "congrua.cli:main"
+geoaudit = "geoaudit.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
-congrua = ["cards/*.json"]
+geoaudit = ["cards/*.json"]
