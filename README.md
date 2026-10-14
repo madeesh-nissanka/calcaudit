@@ -1,8 +1,9 @@
-# CalcAudit 1.0.0 - consistency checks for engineering documents
+# CalcAudit
 
-CALCAUDIT reads the equations in an engineering document (LaTeX, Markdown, plain text or Word with native equations),
-checks them against the units you declare and against a library of standard relations, re-computes stated
-calculations, and verifies each step of a written derivation. It reports every check as one of three outcomes:
+Consistency checks for engineering documents. CalcAudit reads the equations, tables, parameters, data series and
+stated results of a report or paper, and tells you where they disagree with each other or with basic physics.
+
+Every check ends in one of three outcomes, and every report states how much was actually checked:
 
 | Outcome | Meaning |
 |---|---|
@@ -10,92 +11,70 @@ calculations, and verifies each step of a written derivation. It reports every c
 | **violated** | the rule ran and failed; the evidence is attached |
 | **not checkable** | the rule could not run; the reason is stated |
 
-Every report ends with a coverage line, for example `20 checks: 11 verified, 7 violated, 2 not checkable (90% checkable).`
-Findings are indicators for a human reviewer. The tool never states that anyone cheated.
+Example coverage line: `25 checks: 11 verified, 9 violated, 5 not checkable (80% checkable).`
+Findings are indicators for a human reviewer. The tool never states that anyone cheated or acted in bad faith.
 
-## What v0.1 checks
+Standard library only; Python 3.10 or newer. MIT licence.
 
-| Rule | Check |
-|---|---|
-| U01 | both sides of an equation and all terms of a sum have the same dimension |
-| U02 | arguments of exp, log, sin ... and exponents are dimensionless |
-| U03 | a table column header such as `Settlement (kPa)` has a unit that fits the quantity |
-| E01 | a reported result follows from the stated inputs (reports likely power-of-ten and sign errors) |
-| E02 | the equation matches a standard form from the knowledge cards (reports a constant-factor difference) |
-| V01 | each step of a derivation is algebraically equivalent to the previous one (reports dropped or extra factors and sign flips) |
-| V02 | an approximation step has a stated assumption |
-
-Standard library only; Python 3.10 or newer.
-
-## Use
+## Install and use
 
 ```bash
 pip install .
-calcaudit scan examples/consolidation_note.tex          # Markdown report to the terminal
+calcaudit scan examples/consolidation_note.tex                  # Markdown report
 calcaudit scan paper.docx --spec glossary.json --format html --out report.html
-calcaudit units "kN/m^2"                                # dimension and SI factor
-calcaudit cards                                         # built-in knowledge cards
+calcaudit impact examples/consolidation_note.tex k             # what depends on a symbol
+calcaudit units "kN/m^2"                                        # dimension and SI factor
+calcaudit cards                                                 # built-in knowledge cards
+calcaudit selftest                                              # synthetic error-injection test
 ```
 
-A sidecar file `<document>.calcaudit.json` (or `--spec`) supplies the glossary of symbol units, the calculations to
-re-compute, derivations and table headers. See `examples/`. Extracting calculations from prose is not part of v0.1.
+Inputs: LaTeX, Markdown and plain text; Word (`.docx`, native equations and table headers); PDF (equations are
+reconstructed from text and always carry low confidence; needs `pdftotext` or the `pypdf` package); and a sidecar
+file `<document>.calcaudit.json` (or `--spec`) with the glossary of symbol units, calculations, reported values,
+datasets, parameters, claims and fit records. See `examples/`.
+
+## Rules
+
+| Pack | Rules | What they check |
+|---|---|---|
+| Units | U01 U02 U03 | dimensions of equations and sums; dimensionless arguments and exponents; units in table headers |
+| Equations | E01 E02 | stated results recomputed from stated inputs (power-of-ten and sign hints); match to a standard form |
+| Derivations | V01 V02 | each step equivalent to the previous one; approximation steps have a stated assumption |
+| Parameters | P01-P08 | void ratio and saturation, unit weight, compression indices, OCR, permeability and unit slips, plasticity, friction angle |
+| Series | F01-F04 L01 L02 | time axis, frozen sensor or steps, bounded quantities, monotonic requirements, duplicated rows and blocks |
+| Traceability | D01 D02 | reported numbers match their declared source (calculation, parameter or data series) |
+| Calibration | C01-C03 | how many measured signals were fitted; large errors; a good fit beside a poor one |
+| Claims | T01-T04 | generic parameter ranges, trend direction against a card, validity limits, absolute wording |
+| Argument | A01-A06 | review questions: contradictory values, certainty wording, correlation and cause, fit-and-validate on the same data, single case generalised, claims without evidence |
+
+Details, tolerances and known false-alarm cases are in `docs/RULES.md`.
 
 ## Knowledge cards
 
-A card is a small JSON file: the equation, the unit of every variable, assumptions and a source note. Add your own
-with `--cards <dir>`. The cards that ship are generic textbook relations; add a citation before relying on one in
-a publication.
+A card is a small JSON file: the equation, the unit of every variable, assumptions, a source note and optional
+numeric validity limits. 27 generic textbook relations ship with the package. Add your own with `--cards <dir>`.
+Add a proper citation before relying on a card in a publication.
 
-## Honest limits
+## Limits (please read)
 
-- Equation parsing is for LaTeX-like and Word-native equations. PDFs are not read in v0.1.
-- Symbol units must be declared in the glossary; undeclared symbols give "not checkable", never a pass.
+- A clean report means the listed rules passed on what could be parsed, not that the document is correct.
+- Symbol units must be declared or stated in a "where ..." clause; undeclared symbols give "not checkable", never a pass.
 - Equivalence testing is randomised numeric testing, not a formal proof; an inconclusive result is reported as such.
-- The built-in mutation self-test builds its errors from the same cards the rules use, so its recall figure checks the
-  plumbing, not real-world coverage. Independent test sets are planned.
-- Detecting AI-written text is deliberately out of scope.
+- Equations reconstructed from PDF text are low confidence; serious findings on them are shown as review.
+- Calculations are extracted from prose only when the equation, its inputs and its result appear in one paragraph.
+- The generic parameter ranges are order-of-magnitude textbook values.
+- The built-in self-test builds its errors from the same cards the rules use; it checks the plumbing, not real-world coverage.
+- Detecting machine-written text is deliberately out of scope.
 
 ## Develop
 
 ```bash
 python -m unittest discover -s tests
-python -c "import sys; sys.path.insert(0,'src'); from calcaudit import mutate; print(mutate.summary(mutate.run()))"
+PYTHONPATH=src python -m calcaudit selftest
 ```
 
-MIT licence. Author: Madeesh P. Nissanka.
+See `CONTRIBUTING.md`. Test data must be invented or public.
 
-## v0.3.0 additions
+## Citation
 
-| Rule | Check |
-|---|---|
-| D01 | a number reported in a table or text matches the calculation, parameter or data series it is declared to come from; no declared source is reported as "no source" |
-| D02 | a mismatch that is a power of ten or a sign flip is named as such |
-| C01-C03 | calibration honesty: how many measured signals were fitted, error above 25%, a good fit on one signal beside a poor fit on another |
-| impact | `calcaudit impact doc.tex k`: everything that depends on a symbol, and reported values with no declared source |
-
-The sidecar file takes `reported` (label, where, value, source) and `fits` (signal, fitted, mare_pct) entries; see `docs/RULES.md`.
-
-## v0.4.0 additions: claims
-
-| Rule | Check |
-|---|---|
-| T01 | a claimed parameter value lies inside the generic range for that quantity (`ranges.json`, unit-aware) |
-| T02 | a claimed trend ("v decreases as i increases") agrees with the direction of the knowledge-card relation |
-| T03 | a method is used inside the validity limits of its card (for example a Reynolds-number limit for Darcy's law) |
-| T04 | absolute wording in the text ("always", "never", "proves") is listed as a review question |
-
-Claims are given in the sidecar file under `claims`. The generic ranges are order-of-magnitude textbook values and
-carry a note to add a citation before use in a publication.
-
-## v0.5.0 additions: argument review questions
-
-| Rule | Review question |
-|---|---|
-| A01 | the same symbol is given two different values in the text |
-| A02 | strong certainty wording while no uncertainty, error or tolerance is stated anywhere |
-| A03 | agreement or correlation and a causal claim in one sentence |
-| A04 | agreement reported on the same data that was used to fit |
-| A05 | one case and a general statement in the same paragraph |
-| A06 | a claim with no evidence declared |
-
-These are structural checks that quote the passage. They are written as questions for a reviewer and are never verdicts.
+See `CITATION.cff`. Author: Madeesh P. Nissanka. MIT licence.

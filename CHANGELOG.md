@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.1 - 2026-10-14
+- README rewritten to match the 1.0 feature set; package metadata (URLs, classifiers); citation file points to the repository.
+
 ## 1.0.0 - 2026-10-14
 - First complete release: units (U), equations (E), derivations (V), parameter physics (P), data series (F, L),
   traceability (D), calibration honesty (C), claims (T), argument review questions (A).
