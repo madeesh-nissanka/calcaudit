@@ -86,3 +86,16 @@ The sidecar file takes `reported` (label, where, value, source) and `fits` (sign
 
 Claims are given in the sidecar file under `claims`. The generic ranges are order-of-magnitude textbook values and
 carry a note to add a citation before use in a publication.
+
+## v0.5.0 additions: argument review questions
+
+| Rule | Review question |
+|---|---|
+| A01 | the same symbol is given two different values in the text |
+| A02 | strong certainty wording while no uncertainty, error or tolerance is stated anywhere |
+| A03 | agreement or correlation and a causal claim in one sentence |
+| A04 | agreement reported on the same data that was used to fit |
+| A05 | one case and a general statement in the same paragraph |
+| A06 | a claim with no evidence declared |
+
+These are structural checks that quote the passage. They are written as questions for a reviewer and are never verdicts.

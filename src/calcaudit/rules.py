@@ -303,7 +303,7 @@ def _enrich(doc: Document, rep: Report) -> None:
 
 def run_all(doc: Document, cards: dict[str, dict]) -> Report:
     from pathlib import Path
-    from .packs import claims, series, soil, trace
+    from .packs import argument, claims, series, soil, trace
     rep = Report(source=doc.source, n_equations=len(doc.equations))
     _enrich(doc, rep)
     params = {k: (tuple(v) if isinstance(v, list) else (str(v), "")) for k, v in doc.parameters.items()}
@@ -316,4 +316,5 @@ def run_all(doc: Document, cards: dict[str, dict]) -> Report:
     rule_derivations(doc, rep)
     trace.run(doc, Path(doc.base), rep)
     claims.run(doc, cards, rep)
+    argument.run(doc, rep)
     return rep

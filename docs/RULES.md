@@ -20,3 +20,9 @@ Each rule has an ID, a deterministic test, and a documented false-alarm case.
 | T02 | sign of the partial derivative of the card relation over positive values | relations that change direction (reported as not checkable) |
 | T03 | stated condition values inside the numeric validity of the card | validity limits are approximate |
 | T04 | absolute words in a sentence | quoted or mathematical uses |
+| A01 | same symbol, same unit, two different numbers | deliberately different cases written with one symbol |
+| A02 | certainty word present and no uncertainty vocabulary anywhere | uncertainty reported in a table only |
+| A03 | correlation word and causal word in one sentence | causal mechanism explained elsewhere |
+| A04 | `fitted_on` equals `validated_on` | fit quality is the stated aim |
+| A05 | single-case phrase and general word in one paragraph | scope limited in the next sentence |
+| A06 | claim without `evidence` | evidence cited in prose |
