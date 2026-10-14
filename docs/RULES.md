@@ -11,3 +11,8 @@ Each rule has an ID, a deterministic test, and a documented false-alarm case.
 | E02 | numeric equivalence to a standard card with the same symbols | alternative sign conventions; supply a `symbol_map` or a custom card |
 | V01 | equivalence of consecutive derivation steps by random numeric testing | steps that are only valid under a domain restriction |
 | V02 | an approximation step needs a stated assumption | none known |
+| D01 | declared source value within tolerance (default 3%) | rounding in the source; set `tolerance` per value |
+| D02 | mismatch that equals 10^n times, or minus one times, the source | unit change not declared |
+| C01 | only one of several measured signals was fitted | a single measured signal exists |
+| C02 | reported mean relative error above 25% | metric defined differently |
+| C03 | good fit (15% or less) on the fitted signal and above 40% on another | the second signal is out of scope for the study |

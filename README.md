@@ -63,3 +63,14 @@ python -c "import sys; sys.path.insert(0,'src'); from calcaudit import mutate; p
 ```
 
 MIT licence. Author: Madeesh P. Nissanka.
+
+## v0.3.0 additions
+
+| Rule | Check |
+|---|---|
+| D01 | a number reported in a table or text matches the calculation, parameter or data series it is declared to come from; no declared source is reported as "no source" |
+| D02 | a mismatch that is a power of ten or a sign flip is named as such |
+| C01-C03 | calibration honesty: how many measured signals were fitted, error above 25%, a good fit on one signal beside a poor fit on another |
+| impact | `calcaudit impact doc.tex k`: everything that depends on a symbol, and reported values with no declared source |
+
+The sidecar file takes `reported` (label, where, value, source) and `fits` (signal, fitted, mare_pct) entries; see `docs/RULES.md`.

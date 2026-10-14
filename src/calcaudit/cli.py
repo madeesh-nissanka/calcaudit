@@ -24,6 +24,10 @@ def main(argv=None) -> int:
     u = sub.add_parser("units", help="show the dimension of a unit expression")
     u.add_argument("unit")
     sub.add_parser("cards", help="list the built-in knowledge cards")
+    im = sub.add_parser("impact", help="what depends on a symbol (equations, calculations, data, reported values)")
+    im.add_argument("path")
+    im.add_argument("symbol")
+    im.add_argument("--spec")
     a = ap.parse_args(argv)
     if a.cmd == "units":
         try:
@@ -36,6 +40,18 @@ def main(argv=None) -> int:
     if a.cmd == "cards":
         for c in load_cards().values():
             print(f"{c['id']:30s} {c['equation']}")
+        return 0
+    if a.cmd == "impact":
+        from .graph import Graph
+        g = Graph(load_document(a.path, a.spec))
+        hit = g.impact(f"sym:{a.symbol}")
+        if not hit:
+            print(f"nothing depends on {a.symbol!r}")
+        for n, d in sorted(hit.items(), key=lambda x: (x[1], x[0])):
+            print(f"{d}  {g.kind.get(n, '?'):16s} {n}")
+        orphans = g.orphans()
+        if orphans:
+            print("reported values without a declared source:", ", ".join(orphans))
         return 0
     doc = load_document(a.path, a.spec)
     rep = run_all(doc, load_cards(a.cards))
