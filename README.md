@@ -1,5 +1,7 @@
 # CalcAudit
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23355911.svg)](https://doi.org/10.5281/zenodo.23355911)
+
 Consistency checks for engineering documents. CalcAudit reads the equations, tables, parameters, data series and
 stated results of a report or paper, and tells you where they disagree with each other or with basic physics.
 
@@ -77,4 +79,5 @@ See `CONTRIBUTING.md`. Test data must be invented or public.
 
 ## Citation
 
-See `CITATION.cff`. Author: Madeesh P. Nissanka. MIT licence.
+See `CITATION.cff`. The DOI 10.5281/zenodo.23355911 always resolves to the latest archived version.
+Author: Madeesh P. Nissanka. MIT licence.
