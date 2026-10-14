@@ -1,0 +1,14 @@
+{
+ "glossary": {"v":"m/s","k":"m/s","i":"1","T_v":"1","c_v":"m^2/s","t":"s","H_dr":"m","u":"kPa"},
+ "calculations": [{"id":"C1","equation":"eq:darcy","inputs":{"k":"1e-6 m/s","i":"0.5"},"reported":{"v":"5e-7 m/s"}}],
+ "reported": [
+   {"label":"R1","where":"Table 2","value":"5e-7 m/s","source":{"calculation":"C1"}},
+   {"label":"R2","where":"Table 2","value":"5e-6 m/s","source":{"calculation":"C1"}},
+   {"label":"R3","where":"Table 2","value":"46.4 kPa","source":{"dataset":"Series A","column":"u","time":4}}],
+ "datasets": [{"name":"Series A","path":"series.csv","time":"t","columns":{"u":"kPa"},
+               "monotone":{"u":"decreasing"},"bounded_by":[{"value":"u","limit":"sigma_v"}]}],
+ "parameters": {"Cc":"0.04","Cr":"0.09","k":["3.0","m/s"]},
+ "claims": [{"id":"K1","type":"range","quantity":"Cc","value":"0.04","text":"compression index"},
+            {"id":"K2","type":"trend","card":"darcy_law","dependent":"v","independent":"i","direction":"decreases","text":"v falls with gradient"}],
+ "fits": [{"signal":"settlement","fitted":true,"mare_pct":8},{"signal":"pore pressure","fitted":false,"mare_pct":70}]
+}

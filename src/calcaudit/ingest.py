@@ -17,6 +17,7 @@ class Equation:
     id: str
     text: str
     where: str = ""
+    confidence: str = "high"      # high: native equation source; low: reconstructed from PDF text
 
 
 @dataclass
@@ -78,6 +79,50 @@ def omml_to_text(el) -> str:
     return "".join(omml_to_text(x) for x in ch)
 
 
+def docx_tables(path: Path) -> list[dict]:
+    """First row of each Word table as column headers."""
+    z = zipfile.ZipFile(path)
+    root = ET.fromstring(z.read("word/document.xml"))
+    out = []
+    for n, tbl in enumerate(root.iter(W + "tbl"), 1):
+        rows = tbl.findall(W + "tr")
+        if not rows:
+            continue
+        cells = []
+        for tc in rows[0].findall(W + "tc"):
+            cells.append("".join(t.text or "" for t in tc.iter(W + "t")).strip())
+        out.append({"name": f"Table {n} (document order)", "columns": [c for c in cells if c]})
+    return out
+
+
+_MD_TABLE = re.compile(r"^\s*\|(.+)\|\s*\n\s*\|[\s:|-]+\|\s*$", re.M)
+
+
+def md_tables(text: str) -> list[dict]:
+    return [{"name": f"Table {i} (markdown)", "columns": [c.strip() for c in m.group(1).split("|") if c.strip()]}
+            for i, m in enumerate(_MD_TABLE.finditer(text), 1)]
+
+
+def _pdf_equations(path: Path) -> tuple[list[Equation], str]:
+    """Reconstruct equations from PDF text with pdftotext. Always low confidence."""
+    import shutil
+    import subprocess
+    exe = shutil.which("pdftotext")
+    if exe:
+        text = subprocess.run([exe, "-layout", str(path), "-"], capture_output=True, text=True, check=True).stdout
+    else:
+        try:
+            import pypdf
+        except ImportError:
+            raise RuntimeError("PDF input needs the 'pdftotext' program (poppler-utils) or the 'pypdf' package")
+        text = "\n".join((pg.extract_text() or "") for pg in pypdf.PdfReader(str(path)).pages)
+    eqs = []
+    for n, m in enumerate(re.finditer(r"^[ \t]*([A-Za-z\u0370-\u03ff][^=\n]{0,30}=[^=\n]{1,80})\s*(?:\((\d+)\))?\s*$", text, re.M), 1):
+        body = re.sub(r"\s{2,}", " ", m.group(1)).strip()
+        eqs.append(Equation(m.group(2) or f"P{n}", body, f"pdf text line {text.count(chr(10), 0, m.start()) + 1}", "low"))
+    return eqs, text
+
+
 def _docx_equations(path: Path) -> list[Equation]:
     z = zipfile.ZipFile(path)
     root = ET.fromstring(z.read("word/document.xml"))
@@ -125,20 +170,24 @@ def _text_equations(text: str) -> list[Equation]:
 def load_document(path: str, spec: str | None = None) -> Document:
     p = Path(path)
     doc = Document(source=str(p), base=str(p.parent))
-    if p.suffix.lower() == ".docx":
+    if p.suffix.lower() == ".pdf":
+        doc.equations, doc.text = _pdf_equations(p)
+    elif p.suffix.lower() == ".docx":
         doc.equations = _docx_equations(p)
+        doc.tables = docx_tables(p)
     elif p.suffix.lower() == ".json":
         spec = spec or str(p)
     else:
         doc.text = p.read_text(encoding="utf-8", errors="replace")
         doc.equations = _text_equations(doc.text)
+        doc.tables = md_tables(doc.text)
     sp = Path(spec) if spec else p.with_suffix(".calcaudit.json")
     if sp.exists():
         d = json.loads(sp.read_text(encoding="utf-8"))
         doc.glossary = d.get("glossary", {})
         doc.calculations = d.get("calculations", [])
         doc.derivations = d.get("derivations", [])
-        doc.tables = d.get("tables", [])
+        doc.tables = doc.tables + d.get("tables", [])
         doc.card_map = d.get("cards", {})
         doc.symbol_map = d.get("symbol_map", {})
         doc.parameters = d.get("parameters", {})

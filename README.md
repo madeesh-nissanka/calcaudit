@@ -1,4 +1,4 @@
-# CALCAUDIT v0.1.0 - consistency checks for engineering documents
+# CalcAudit 1.0.0 - consistency checks for engineering documents
 
 CALCAUDIT reads the equations in an engineering document (LaTeX, Markdown, plain text or Word with native equations),
 checks them against the units you declare and against a library of standard relations, re-computes stated

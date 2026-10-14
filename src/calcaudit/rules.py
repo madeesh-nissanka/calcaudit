@@ -301,6 +301,18 @@ def _enrich(doc: Document, rep: Report) -> None:
             doc.parameters.setdefault(k, [v, u if u != "1" else ""])
 
 
+def _apply_confidence(doc: Document, rep: Report) -> None:
+    low = {f"equation {e.id}" for e in doc.equations if getattr(e, "confidence", "high") == "low"}
+    if not low:
+        return
+    for f in rep.findings:
+        if f.object in low:
+            f.evidence = (f.evidence + " | " if f.evidence else "") + "reconstructed from PDF text (low confidence)"
+            if f.severity == Severity.SERIOUS:
+                f.severity = Severity.REVIEW
+    rep.notes.append(f"{len(low)} equation(s) were reconstructed from PDF text; serious findings on them are shown as review.")
+
+
 def run_all(doc: Document, cards: dict[str, dict]) -> Report:
     from pathlib import Path
     from .packs import argument, claims, series, soil, trace
@@ -317,4 +329,5 @@ def run_all(doc: Document, cards: dict[str, dict]) -> Report:
     trace.run(doc, Path(doc.base), rep)
     claims.run(doc, cards, rep)
     argument.run(doc, rep)
+    _apply_confidence(doc, rep)
     return rep

@@ -24,6 +24,7 @@ def main(argv=None) -> int:
     u = sub.add_parser("units", help="show the dimension of a unit expression")
     u.add_argument("unit")
     sub.add_parser("cards", help="list the built-in knowledge cards")
+    sub.add_parser("selftest", help="inject known errors into synthetic equations and report what is caught")
     im = sub.add_parser("impact", help="what depends on a symbol (equations, calculations, data, reported values)")
     im.add_argument("path")
     im.add_argument("symbol")
@@ -37,6 +38,14 @@ def main(argv=None) -> int:
             return 2
         print(f"dimension {d}; factor to SI {f:g}")
         return 0
+    if a.cmd == "selftest":
+        from . import mutate
+        summ = mutate.summary(mutate.run())
+        for k, (c, t) in summ.items():
+            label = "correctly left alone" if k == "clean" else "caught"
+            print(f"{k:16s} {c}/{t} {label}")
+        print("note: the errors are built from the same cards the rules use; this checks the plumbing, not real-world coverage")
+        return 0 if all(c == t for c, t in summ.values()) else 1
     if a.cmd == "cards":
         for c in load_cards().values():
             print(f"{c['id']:30s} {c['equation']}")
