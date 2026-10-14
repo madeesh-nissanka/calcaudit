@@ -36,6 +36,7 @@ class Document:
     inferred: dict = field(default_factory=dict)        # symbol -> how its unit was inferred
     reported: list = field(default_factory=list)        # values stated in tables/text with a declared source
     fits: list = field(default_factory=list)            # calibration fit records per measured signal
+    claims: list = field(default_factory=list)          # claims to test against ranges and cards
 
 
 # ----------------------------------------------------------------------------- OMML
@@ -144,6 +145,7 @@ def load_document(path: str, spec: str | None = None) -> Document:
         doc.datasets = d.get("datasets", [])
         doc.reported = d.get("reported", [])
         doc.fits = d.get("fits", [])
+        doc.claims = d.get("claims", [])
         doc.base = str(sp.parent)
         for e in d.get("equations", []):
             doc.equations.append(Equation(e["id"], e["text"], e.get("where", "spec")))

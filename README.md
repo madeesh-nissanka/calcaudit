@@ -74,3 +74,15 @@ MIT licence. Author: Madeesh P. Nissanka.
 | impact | `calcaudit impact doc.tex k`: everything that depends on a symbol, and reported values with no declared source |
 
 The sidecar file takes `reported` (label, where, value, source) and `fits` (signal, fitted, mare_pct) entries; see `docs/RULES.md`.
+
+## v0.4.0 additions: claims
+
+| Rule | Check |
+|---|---|
+| T01 | a claimed parameter value lies inside the generic range for that quantity (`ranges.json`, unit-aware) |
+| T02 | a claimed trend ("v decreases as i increases") agrees with the direction of the knowledge-card relation |
+| T03 | a method is used inside the validity limits of its card (for example a Reynolds-number limit for Darcy's law) |
+| T04 | absolute wording in the text ("always", "never", "proves") is listed as a review question |
+
+Claims are given in the sidecar file under `claims`. The generic ranges are order-of-magnitude textbook values and
+carry a note to add a citation before use in a publication.

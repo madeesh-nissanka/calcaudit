@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "calcaudit"
-version = "0.3.0"
+version = "0.4.0"
 description = "Consistency checks for engineering documents: units, equations and derivations."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -19,4 +19,4 @@ calcaudit = "calcaudit.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-calcaudit = ["cards/*.json"]
+calcaudit = ["cards/*.json", "ranges.json"]

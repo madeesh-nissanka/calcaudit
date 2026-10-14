@@ -9,8 +9,15 @@
  },
  "assumptions": [
   "laminar flow",
-  "saturated porous medium"
+  "saturated porous medium",
+  "Reynolds number of the flow in the pores below about 10"
  ],
  "source": "standard textbook relation; add an explicit citation before relying on this card in a publication",
- "version": 1
+ "version": 1,
+ "validity": {
+  "Re": [
+   0,
+   10
+  ]
+ }
 }

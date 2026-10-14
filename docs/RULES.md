@@ -16,3 +16,7 @@ Each rule has an ID, a deterministic test, and a documented false-alarm case.
 | C01 | only one of several measured signals was fitted | a single measured signal exists |
 | C02 | reported mean relative error above 25% | metric defined differently |
 | C03 | good fit (15% or less) on the fitted signal and above 40% on another | the second signal is out of scope for the study |
+| T01 | claimed value inside the generic range after unit conversion | unusual soils legitimately outside the generic range |
+| T02 | sign of the partial derivative of the card relation over positive values | relations that change direction (reported as not checkable) |
+| T03 | stated condition values inside the numeric validity of the card | validity limits are approximate |
+| T04 | absolute words in a sentence | quoted or mathematical uses |
